@@ -18,16 +18,25 @@ export default function DenseTable() {
       );
       setCoins(response.data);
     };
+
+    setInterval(fetchData, 300000);
     fetchData();
   }, []);
+  let price = coins[0]?.current_price;
+  let currentPrices = [];
+  for (let i = 0; i < coins.length; i++) {
+    currentPrices.push(coins[i].current_price);
+  }
+
+  currentPrices.push(price);
+  console.log(currentPrices);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="medium" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>İD</TableCell>
-            <TableCell align="right">SYMBOL</TableCell>
-            <TableCell align="right">CURRENT_PRİCE</TableCell>
+            <TableCell>SYMBOL</TableCell>
+            <TableCell>CURRENT_PRİCE</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -36,12 +45,8 @@ export default function DenseTable() {
               key={coins.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {coins.name}
-              </TableCell>
-
-              <TableCell align="right">{coins.symbol}</TableCell>
-              <TableCell align="right">{coins.current_price}</TableCell>
+              <TableCell>{coins.symbol}</TableCell>
+              <TableCell>{coins.current_price}</TableCell>
             </TableRow>
           ))}
         </TableBody>
